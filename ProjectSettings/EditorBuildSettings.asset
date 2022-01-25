@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/SampleScene.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 0
+    path: Assets/BNG Framework/Scenes/Vehicle Example.unity
+    guid: d96233ee44d985d4fb8dc23a907c06eb
+  - enabled: 0
+    path: Assets/BNG Framework/Scenes/XR Demo.unity
+    guid: a1360534006d3f845bc79b46b93cfec5
+  - enabled: 0
+    path: Assets/BNG Framework/Scenes/ProyectoVRClase.unity
+    guid: 0ee9431f326eb5d4f8d69e9d808b96e4
+  - enabled: 1
+    path: Assets/BNG Framework/Scenes/ProyectoVRDesocupa.unity
+    guid: f754e5bbd0f2e404e860678e1a281f73
+  m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: d9e92cab3af561b4da29beb5edff1b6f, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 4dba6ef255b36cd419becc21ccdc0074, type: 2}
