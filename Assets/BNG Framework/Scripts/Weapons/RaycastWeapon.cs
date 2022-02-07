@@ -15,6 +15,9 @@ namespace BNG {
         /// How far we can shoot in meters
         /// </summary>
         public float MaxRange = 25f;
+        public Transform Fumigadora;
+        public Vector3 hitCopy;
+        public Vector3 sphereHitCopy;
 
         /// <summary>
         /// How much damage to apply to "Damageable" on contact
@@ -393,8 +396,21 @@ namespace BNG {
             else {
                 // Raycast to hit
                 RaycastHit hit;
-                if (Physics.Raycast(MuzzlePointTransform.position, MuzzlePointTransform.forward, out hit, MaxRange, ValidLayers, QueryTriggerInteraction.Ignore)) {
+                RaycastHit sphereHit;
+                float distanceToObstacle = 2;
+
+                if (Physics.Raycast(MuzzlePointTransform.position, MuzzlePointTransform.forward, out hit, MaxRange, ValidLayers, QueryTriggerInteraction.Ignore))
+                {
                     OnRaycastHit(hit);
+                    hitCopy = hit.point;
+                }
+                if (Physics.SphereCast(hit.point, 0.6f, transform.forward, out sphereHit, MaxRange, ValidLayers, QueryTriggerInteraction.Ignore))
+                {
+                    if (sphereHit.collider.gameObject.tag == "Animal")
+                    {
+                        distanceToObstacle = hit.distance;
+                        OnRaycastHit(sphereHit);
+                    }
                 }
             }
 
@@ -715,6 +731,12 @@ namespace BNG {
                     yield return new WaitForEndOfFrame();
                 }
             }
+        }
+
+        void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(hitCopy, 2);
         }
     }
 
