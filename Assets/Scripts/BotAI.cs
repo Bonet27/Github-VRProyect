@@ -30,9 +30,12 @@ public class BotAI : MonoBehaviour
     public float timeCovering = 2f;
 
     public NavMeshAgent agent;
+    public GameObject rata;
+    public Animator anim_rata;
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        anim_rata = rata.GetComponent<Animator>();
     }
 
     public void FindRandomPoint()

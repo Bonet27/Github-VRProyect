@@ -27,12 +27,15 @@ public class AB_TakingCover : StateMachineBehaviour
             if (timer > 0)
             {
                 timer -= Time.deltaTime;
+                ai.anim_rata.SetBool("Walk", false);
             }
             if (timer <= 0)
             {
                 timer = ai.timeToPatrol;
+                
                 ai.agent.SetDestination(initialPosition);
                 animator.SetBool("IsTakingCover", false);
+                
             }
         }
     }

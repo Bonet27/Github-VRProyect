@@ -5,6 +5,7 @@ using UnityEngine;
 public class AB_Chasing : StateMachineBehaviour
 {
     private BotAI ai;
+    
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -20,6 +21,7 @@ public class AB_Chasing : StateMachineBehaviour
         {
             //ai.StartCoroutine(ai.RataCogida());
             ai.agent.enabled = false;
+            ai.anim_rata.SetBool("Walk", true);
             return;
         }
         else
@@ -28,6 +30,7 @@ public class AB_Chasing : StateMachineBehaviour
             ai.FindCover();
             return;
         }
+
         if (ai.DetectPlayer() == false)
         {
             animator.SetBool("IsChasing", false);
