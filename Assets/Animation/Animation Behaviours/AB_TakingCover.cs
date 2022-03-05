@@ -15,7 +15,7 @@ public class AB_TakingCover : StateMachineBehaviour
             ai = animator.gameObject.GetComponent<BotAI>();
         }
         initialPosition = animator.transform.position;
-        ai.FindCover();
+        ai.FindWaypoint();
         timer = ai.timeCovering;
     }
 
@@ -32,8 +32,8 @@ public class AB_TakingCover : StateMachineBehaviour
             if (timer <= 0)
             {
                 timer = ai.timeToPatrol;
-                
-                ai.agent.SetDestination(initialPosition);
+                //ai.FindWaypoint();
+                //ai.agent.SetDestination(initialPosition);
                 animator.SetBool("IsTakingCover", false);
                 
             }

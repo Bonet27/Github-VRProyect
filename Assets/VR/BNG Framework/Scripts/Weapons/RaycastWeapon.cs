@@ -19,6 +19,9 @@ namespace BNG {
         public Vector3 hitCopy;
         public Vector3 sphereHitCopy;
 
+        public GameObject particleVeneno;
+        public ParticleSystem particleVeneno1;
+
         /// <summary>
         /// How much damage to apply to "Damageable" on contact
         /// </summary>
@@ -358,6 +361,7 @@ namespace BNG {
                 if(!playedEmptySound) {
                     VRUtils.Instance.PlaySpatialClipAt(EmptySound, transform.position, EmptySoundVolume, 0.5f);
                     playedEmptySound = true;
+                    particleVeneno.SetActive(false);
                 }
                 
                 return;
@@ -370,7 +374,10 @@ namespace BNG {
             }
 
             // Create our own spatial clip
-            VRUtils.Instance.PlaySpatialClipAt(GunShotSound, transform.position, GunShotVolume);
+            //VRUtils.Instance.PlaySpatialClipAt(GunShotSound, transform.position, GunShotVolume);
+
+            particleVeneno.SetActive(true);
+            particleVeneno1.Play();
 
             // Haptics
             if (thisGrabber != null) {
@@ -406,7 +413,7 @@ namespace BNG {
                 }
                 if (Physics.SphereCast(hit.point, 0.6f, transform.forward, out sphereHit, MaxRange, ValidLayers, QueryTriggerInteraction.Ignore))
                 {
-                    if (sphereHit.collider.gameObject.tag == "Animal")
+                    if (sphereHit.collider.gameObject.tag == "Rata")
                     {
                         distanceToObstacle = hit.distance;
                         OnRaycastHit(sphereHit);
@@ -457,7 +464,7 @@ namespace BNG {
                 StartCoroutine(shotRoutine);
             }
             else {
-                shotRoutine = doMuzzleFlash();
+                //shotRoutine = doMuzzleFlash();
                 StartCoroutine(shotRoutine);
             }
         }
@@ -477,7 +484,7 @@ namespace BNG {
         // Hit something without Raycast. Apply damage, apply FX, etc.
         public virtual void OnRaycastHit(RaycastHit hit) {
 
-            ApplyParticleFX(hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal), hit.collider);
+            //ApplyParticleFX(hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal), hit.collider);
 
             // push object if rigidbody
             Rigidbody hitRigid = hit.collider.attachedRigidbody;
@@ -656,7 +663,7 @@ namespace BNG {
         IEnumerator animateSlideAndEject() {
 
             // Start Muzzle Flash
-            MuzzleFlashObject.SetActive(true);
+            //MuzzleFlashObject.SetActive(true);
 
             int frames = 0;
             bool slideEndReached = false;
@@ -705,7 +712,7 @@ namespace BNG {
             MuzzleFlashObject.SetActive(false);
 
             // Eject Shell
-            ejectCasing();
+            //ejectCasing();
 
             // Pause for shell to eject before returning slide
             yield return new WaitForEndOfFrame();

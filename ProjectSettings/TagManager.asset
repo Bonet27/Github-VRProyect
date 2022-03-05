@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Animal
   - Basura
+  - Waypoint
+  - Rata
   layers:
   - Default
   - TransparentFX

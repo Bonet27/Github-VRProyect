@@ -5,7 +5,8 @@ using UnityEngine;
 public class AB_Chasing : StateMachineBehaviour
 {
     private BotAI ai;
-    
+    private WaypointScript _way;
+
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -20,14 +21,20 @@ public class AB_Chasing : StateMachineBehaviour
         if (ai.HasTarget() == true)
         {
             //ai.StartCoroutine(ai.RataCogida());
-            ai.agent.enabled = false;
+            //ai.agent.enabled = false;
             ai.anim_rata.SetBool("Walk", true);
             return;
         }
         else
         {
             ai.agent.enabled = true;
-            ai.FindCover();
+            //ai.FindCover();
+            if (ai.count >= 1)
+            {
+                ai.count = 0;
+                ai.FindWaypoint();
+                ai.anim_rata.SetBool("Walk", true);
+            }
             return;
         }
 
@@ -41,7 +48,8 @@ public class AB_Chasing : StateMachineBehaviour
         if (ai.GetTargetDirection().sqrMagnitude < ai.attackRange * ai.attackRange)
         {
             animator.SetBool("IsChasing", false);
-            ai.FindCover();
+            //ai.FindCover();
+            ai.FindWaypoint();
             return;
         }
     }

@@ -26,12 +26,19 @@ public class BotAI : MonoBehaviour
     public Transform coverTarget;
     public float coverFactor = .5f;
     public float findCoverRadius = 15f;
-    public float findPlayerRadius = 1f; 
+    public float findPlayerRadius = 1f;
     public float timeCovering = 2f;
 
     public NavMeshAgent agent;
     public GameObject rata;
     public Animator anim_rata;
+
+    public bool muerto = false;
+
+    public int count = 1;
+
+    public List<Transform> Waypoints = new List<Transform>();
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -41,6 +48,17 @@ public class BotAI : MonoBehaviour
     public void FindRandomPoint()
     {
         Vector3 _direction = new Vector3(Random.Range(-1, 1), 0f, Random.Range(-1, 1)) * maxPatrolDist;
+        if (NavMesh.SamplePosition(_direction, out NavMeshHit _hit, 1f, 1))
+        {
+            agent.SetDestination(_hit.position);
+        }
+    }
+
+    public void FindWaypoint()
+    {
+        int nextWaypoint = Random.Range(0, Waypoints.Count);
+        Vector3 _direction = new Vector3(Waypoints[nextWaypoint].transform.position.x, Waypoints[nextWaypoint].transform.position.y, Waypoints[nextWaypoint].transform.position.z);
+        Debug.Log(_direction);
         if (NavMesh.SamplePosition(_direction, out NavMeshHit _hit, 1f, 1))
         {
             agent.SetDestination(_hit.position);
@@ -69,7 +87,7 @@ public class BotAI : MonoBehaviour
             {
                 if (Physics.Raycast(transform.position + Vector3.up * .8f, _dir.normalized, _dir.magnitude, obstacleLayer) == false)
                 {
-                    target = _targets[0].transform;     
+                    target = _targets[0].transform;
                 }
             }
         }
@@ -91,7 +109,7 @@ public class BotAI : MonoBehaviour
             if (Vector3.Angle(transform.forward, _dir) < visionAngle / 2f)
             {
                 //Debug.Log("campo vision");
-                if (Physics.Linecast(transform.position + Vector3.up * .8f, _dPlayer[0].transform.position,out RaycastHit hit, obstacleLayer) == false)
+                if (Physics.Linecast(transform.position + Vector3.up * .8f, _dPlayer[0].transform.position, out RaycastHit hit, obstacleLayer) == false)
                 {
                     Debug.Log("no obstaculos");
                     detectPlayer = _dPlayer[0].transform;
@@ -117,7 +135,7 @@ public class BotAI : MonoBehaviour
         for (int i = 0; i < _covers.Length; i++)
         {
             //Con los bounds accedemos a la altura del objeto. Si es menor que la altura del agente, no es un punto de cobertura valido
-            if(_covers[i].bounds.size.y < agent.height)
+            if (_covers[i].bounds.size.y < agent.height)
             {
                 continue;
             }
@@ -185,5 +203,22 @@ public class BotAI : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, findCoverRadius);
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, findPlayerRadius);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (gameObject.tag == "Waypoint")
+        {
+            count++;
+            Debug.Log("La rata llegó al waypoint");
+        }
+    }
+    void OnTriggerStay(Collider other)
+    {
+        if (gameObject.tag == "Waypoint")
+        {
+            count++;
+            Debug.Log("La rata sigue en el waypoint");
+        }
     }
 }
