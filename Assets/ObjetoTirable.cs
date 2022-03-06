@@ -6,7 +6,7 @@ public class ObjetoTirable : MonoBehaviour
 {
     void OnCollisionEnter(Collision col)
     {
-        if(col.collider.gameObject.tag == "Basura")
+        if(col.collider.gameObject.tag == "Basura" || col.collider.gameObject.tag == "Rata")
         {
             Destroy(col.gameObject);
         }
